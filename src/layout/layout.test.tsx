@@ -10,9 +10,9 @@ describe("Layout", () => {
   });
 
   it("should render the top bar", () => {
-    const { getByText } = render(<Layout />);
+    const { getByPlaceholderText } = render(<Layout />);
 
-    expect(getByText("Add events")).toBeInTheDocument();
+    expect(getByPlaceholderText("Event name")).toBeInTheDocument();
   });
 
   it("should render its children", () => {
