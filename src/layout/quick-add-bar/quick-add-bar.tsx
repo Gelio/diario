@@ -6,8 +6,8 @@ export const QuickAddBar: FunctionComponent = (props) => {
   const addNewEvent: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    console.log("New event", eventName);
-    setEventName("");
+    console.log('New event', eventName);
+    setEventName('');
   };
 
   return (

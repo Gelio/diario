@@ -1,1 +1,1 @@
-export * from "./quick-add-bar";
+export * from './quick-add-bar';
