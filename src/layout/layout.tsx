@@ -6,8 +6,12 @@ export interface LayoutProps {}
 export const Layout: FunctionComponent<LayoutProps> = ({ children }) => {
   return (
     <div className={layoutStyles.layout}>
-      <div className={layoutStyles.sidebar}>Sidebar</div>
-      <div>{children}</div>
+      <aside className={layoutStyles.sidebar}>Sidebar</aside>
+
+      <div className={layoutStyles["main-content"]}>
+        <div>Add events</div>
+        <main>{children}</main>
+      </div>
     </div>
   );
 };
