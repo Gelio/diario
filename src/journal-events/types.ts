@@ -2,6 +2,7 @@
  * Event stored in a journal
  */
 export interface JournalEvent {
+  id: string;
   name: string;
   timestamp: number;
 }
