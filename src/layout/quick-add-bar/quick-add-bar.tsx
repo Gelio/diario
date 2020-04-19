@@ -2,6 +2,7 @@ import React, { FunctionComponent, useState, FormEventHandler } from 'react';
 
 import styles from './quick-add-bar.module.css';
 import { useJournalEventsAPI } from 'journal-events/context';
+import { generateUuid } from 'utils/generate-uuid';
 
 export const QuickAddBar: FunctionComponent = () => {
   const [eventName, setEventName] = useState('');
@@ -11,6 +12,7 @@ export const QuickAddBar: FunctionComponent = () => {
     event.preventDefault();
 
     eventsAPI.addEvent({
+      id: generateUuid(),
       name: eventName,
       timestamp: Date.now(),
     });
