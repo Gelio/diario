@@ -1,10 +1,21 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, RenderResult } from '@testing-library/react';
 import { QuickAddBar } from './quick-add-bar';
+import { JournalEventsProvider } from 'journal-events/context';
 
 describe('QuickAddBar', () => {
+  let renderResult: RenderResult;
+
+  beforeEach(() => {
+    renderResult = render(
+      <JournalEventsProvider>
+        <QuickAddBar />
+      </JournalEventsProvider>
+    );
+  });
+
   it('should clear the input after clicking Add', () => {
-    const { getByText, getByPlaceholderText } = render(<QuickAddBar />);
+    const { getByText, getByPlaceholderText } = renderResult;
 
     const eventNameInput = getByPlaceholderText(
       'Event name'
@@ -23,7 +34,7 @@ describe('QuickAddBar', () => {
   });
 
   it('should have a disabled button when no text was entered', () => {
-    const { getByText, getByPlaceholderText } = render(<QuickAddBar />);
+    const { getByText, getByPlaceholderText } = renderResult;
 
     const eventNameInput = getByPlaceholderText(
       'Event name'
