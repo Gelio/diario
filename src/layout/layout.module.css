@@ -4,7 +4,7 @@
 
   display: grid;
   grid-template-columns: max-content 1fr;
-  grid-template-areas: "sidebar main";
+  grid-template-areas: 'sidebar main';
 }
 
 .sidebar {

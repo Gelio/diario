@@ -3,5 +3,9 @@
  */
 export interface JournalEvent {
   name: string;
-  date: Date;
+  timestamp: number;
+}
+
+export interface JournalEventsAPI {
+  addEvent: (event: JournalEvent) => void;
 }
