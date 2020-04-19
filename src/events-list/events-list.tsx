@@ -1,7 +1,9 @@
-import React, { FunctionComponent, useMemo } from 'react';
+import React, { FunctionComponent, useMemo, useState } from 'react';
 import { useJournalEvents } from 'journal-events/context';
 import { JournalEvent } from 'journal-events';
 import { groupEventsByDate } from './group-events-by-date';
+import { MdExpandMore, MdExpandLess } from 'react-icons/md';
+import { ClickableIcon } from 'components/clickable-icon';
 
 export const EventsList: FunctionComponent = () => {
   const events = useJournalEvents();
@@ -37,17 +39,33 @@ export const EventsList: FunctionComponent = () => {
 const EventsForDate: FunctionComponent<{
   date: string;
   events: JournalEvent[];
-}> = ({ date, events }) => (
-  <>
-    <h2>{date}</h2>
+}> = ({ date, events }) => {
+  const [collapsed, setCollapsed] = useState(false);
+  const toggleCollapse = () => setCollapsed((collapsed) => !collapsed);
 
-    <ul>
-      {events.map((event) => (
-        <EventItem event={event} key={event.id} />
-      ))}
-    </ul>
-  </>
-);
+  return (
+    <>
+      <h2>
+        <ClickableIcon
+          onClick={toggleCollapse}
+          title={collapsed ? 'Show more' : 'Hide details'}
+        >
+          {collapsed ? <MdExpandMore /> : <MdExpandLess />}
+        </ClickableIcon>
+
+        {date}
+      </h2>
+
+      {!collapsed && (
+        <ul>
+          {events.map((event) => (
+            <EventItem event={event} key={event.id} />
+          ))}
+        </ul>
+      )}
+    </>
+  );
+};
 
 const EventItem: FunctionComponent<{ event: JournalEvent }> = ({ event }) => (
   <li>{event.name}</li>
