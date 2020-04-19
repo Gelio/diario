@@ -7,15 +7,24 @@ import React, {
 } from 'react';
 import { JournalEvent, JournalEventsAPI } from './types';
 import { getComponentName } from 'utils/get-component-name';
+import {
+  saveEventsToLocalStorage,
+  getEventsFromLocalStorage,
+} from './local-storage';
 
 const JournalEventsContext = createContext<JournalEvent[] | null>(null);
 const JournalEventsAPIContext = createContext<JournalEventsAPI | null>(null);
 
 export const JournalEventsProvider: FunctionComponent = ({ children }) => {
-  const [events, setEvents] = useState<JournalEvent[]>([]);
+  const [events, setEvents] = useState(getEventsFromLocalStorage);
 
   const addEvent: JournalEventsAPI['addEvent'] = (event) => {
-    setEvents((previousEvents) => [...previousEvents, event]);
+    setEvents((previousEvents) => {
+      const updatedEvents = [...previousEvents, event];
+      saveEventsToLocalStorage(updatedEvents);
+
+      return updatedEvents;
+    });
   };
 
   const journalEventsAPI: JournalEventsAPI = useMemo(
