@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from '@testing-library/react';
 import { Layout } from './layout';
+import { render } from 'test-utils/render';
 
 describe('Layout', () => {
   it('should render the sidebar', () => {

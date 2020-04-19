@@ -1,17 +1,13 @@
 import React from 'react';
-import { render, fireEvent, RenderResult } from '@testing-library/react';
+import { fireEvent, RenderResult } from '@testing-library/react';
 import { QuickAddBar } from './quick-add-bar';
-import { JournalEventsProvider } from 'journal-events/context';
+import { render } from 'test-utils/render';
 
 describe('QuickAddBar', () => {
   let renderResult: RenderResult;
 
   beforeEach(() => {
-    renderResult = render(
-      <JournalEventsProvider>
-        <QuickAddBar />
-      </JournalEventsProvider>
-    );
+    renderResult = render(<QuickAddBar />);
   });
 
   it('should clear the input after clicking Add', () => {
