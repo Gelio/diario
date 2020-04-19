@@ -1,11 +1,14 @@
 import React from 'react';
 import { Layout } from 'layout';
+import { JournalEventsProvider } from 'journal-events/context';
 
 function App() {
   return (
-    <Layout>
-      <div>Main content</div>
-    </Layout>
+    <JournalEventsProvider>
+      <Layout>
+        <div>Main content</div>
+      </Layout>
+    </JournalEventsProvider>
   );
 }
 

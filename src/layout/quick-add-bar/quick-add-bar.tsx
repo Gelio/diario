@@ -1,14 +1,19 @@
 import React, { FunctionComponent, useState, FormEventHandler } from 'react';
 
 import styles from './quick-add-bar.module.css';
+import { useJournalEventsAPI } from 'journal-events/context';
 
-export const QuickAddBar: FunctionComponent = (props) => {
+export const QuickAddBar: FunctionComponent = () => {
   const [eventName, setEventName] = useState('');
+  const eventsAPI = useJournalEventsAPI();
 
   const addNewEvent: FormEventHandler<HTMLFormElement> = (event) => {
     event.preventDefault();
 
-    console.log('New event', eventName);
+    eventsAPI.addEvent({
+      name: eventName,
+      timestamp: Date.now(),
+    });
     setEventName('');
   };
 
