@@ -6,6 +6,7 @@ import React, {
   useMemo,
 } from 'react';
 import { JournalEvent, JournalEventsAPI } from './types';
+import { getComponentName } from 'utils/get-component-name';
 
 const JournalEventsContext = createContext<JournalEvent[] | null>(null);
 const JournalEventsAPIContext = createContext<JournalEventsAPI | null>(null);
@@ -38,7 +39,9 @@ export const useJournalEvents = () => {
 
   if (!journalEvents) {
     throw new Error(
-      `Journal Events context is not availble. Component is not a descendant of ${JournalEventsProvider.displayName}`
+      `Journal Events context is not availble. Component is not a descendant of ${getComponentName(
+        JournalEventsProvider
+      )}`
     );
   }
 
@@ -50,7 +53,9 @@ export const useJournalEventsAPI = () => {
 
   if (!journalEventsAPI) {
     throw new Error(
-      `Journal Events API context is not availble. Component is not a descendant of ${JournalEventsProvider.displayName}`
+      `Journal Events API context is not availble. Component is not a descendant of ${getComponentName(
+        JournalEventsProvider
+      )}`
     );
   }
 
