@@ -36,7 +36,8 @@ export const JournalEventsProvider: FunctionComponent = ({ children }) => {
         return previousEvents;
       }
 
-      const updatedEvents = previousEvents.slice().splice(index, 1);
+      const updatedEvents = previousEvents.slice();
+      updatedEvents.splice(index, 1);
       saveEventsToLocalStorage(updatedEvents);
 
       return updatedEvents;

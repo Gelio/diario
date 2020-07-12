@@ -27,8 +27,8 @@ const useJournalEventsWithAPI = () => {
 };
 
 const sampleEvent: JournalEvent = {
-  id: 'test',
-  name: 'Some event',
+  id: 'laundry',
+  name: 'Laundry',
   timestamp: 1587313239873,
 };
 
@@ -57,6 +57,11 @@ describe('journal events context', () => {
     const { result } = renderHookWithJournalEvents(useJournalEventsWithAPI);
 
     act(() => {
+      result.current.api.addEvent({
+        id: 'test2',
+        name: 'Test2',
+        timestamp: 1234,
+      });
       result.current.api.addEvent(sampleEvent);
       result.current.api.addEvent({
         id: 'test',
@@ -65,6 +70,7 @@ describe('journal events context', () => {
       });
 
       result.current.api.removeEvent('test');
+      result.current.api.removeEvent('test2');
     });
 
     expect(result.current.events).toEqual([sampleEvent]);
