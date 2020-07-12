@@ -13,7 +13,9 @@ import {
 } from './local-storage';
 
 const JournalEventsContext = createContext<JournalEvent[] | null>(null);
+JournalEventsContext.displayName = 'JournalEventsContext';
 const JournalEventsAPIContext = createContext<JournalEventsAPI | null>(null);
+JournalEventsAPIContext.displayName = 'JournalEventsAPIContext';
 
 export const JournalEventsProvider: FunctionComponent = ({ children }) => {
   const [events, setEvents] = useState(getEventsFromLocalStorage);
@@ -27,9 +29,25 @@ export const JournalEventsProvider: FunctionComponent = ({ children }) => {
     });
   };
 
-  const journalEventsAPI: JournalEventsAPI = useMemo(
-    () => ({
+  const removeEvent: JournalEventsAPI['removeEvent'] = (eventId) => {
+    setEvents((previousEvents) => {
+      const index = previousEvents.findIndex((event) => event.id === eventId);
+      if (index === -1) {
+        return previousEvents;
+      }
+
+      const updatedEvents = previousEvents.slice();
+      updatedEvents.splice(index, 1);
+      saveEventsToLocalStorage(updatedEvents);
+
+      return updatedEvents;
+    });
+  };
+
+  const journalEventsAPI = useMemo(
+    (): JournalEventsAPI => ({
       addEvent,
+      removeEvent,
     }),
     []
   );

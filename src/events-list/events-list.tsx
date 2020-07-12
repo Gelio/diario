@@ -1,12 +1,14 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
-import { useJournalEvents } from 'journal-events/context';
-import { JournalEvent } from 'journal-events';
+import { useJournalEvents, useJournalEventsAPI } from 'journal-events/context';
+import { JournalEvent, JournalEventsAPI } from 'journal-events';
 import { groupEventsByDate } from './group-events-by-date';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { ClickableIcon } from 'components/clickable-icon';
+import { EventItem } from './event-item';
 
 export const EventsList: FunctionComponent = () => {
   const events = useJournalEvents();
+  const { removeEvent } = useJournalEventsAPI();
   const eventsGroupedByDate = useMemo(() => groupEventsByDate(events), [
     events,
   ]);
@@ -30,6 +32,7 @@ export const EventsList: FunctionComponent = () => {
             key={date}
             date={date}
             events={eventsGroupedByDate.get(date)!}
+            removeEvent={removeEvent}
           />
         ))}
     </>
@@ -39,7 +42,8 @@ export const EventsList: FunctionComponent = () => {
 const EventsForDate: FunctionComponent<{
   date: string;
   events: JournalEvent[];
-}> = ({ date, events }) => {
+  removeEvent: JournalEventsAPI['removeEvent'];
+}> = ({ date, events, removeEvent }) => {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapse = () => setCollapsed((collapsed) => !collapsed);
 
@@ -59,14 +63,14 @@ const EventsForDate: FunctionComponent<{
       {!collapsed && (
         <ul>
           {events.map((event) => (
-            <EventItem event={event} key={event.id} />
+            <EventItem
+              event={event}
+              key={event.id}
+              onRemove={removeEvent.bind(null, event.id)}
+            />
           ))}
         </ul>
       )}
     </>
   );
 };
-
-const EventItem: FunctionComponent<{ event: JournalEvent }> = ({ event }) => (
-  <li>{event.name}</li>
-);
