@@ -4,6 +4,7 @@ import { JournalEvent } from 'journal-events';
 import { groupEventsByDate } from './group-events-by-date';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { ClickableIcon } from 'components/clickable-icon';
+import { EventItem } from './event-item';
 
 export const EventsList: FunctionComponent = () => {
   const events = useJournalEvents();
@@ -66,7 +67,3 @@ const EventsForDate: FunctionComponent<{
     </>
   );
 };
-
-const EventItem: FunctionComponent<{ event: JournalEvent }> = ({ event }) => (
-  <li>{event.name}</li>
-);
