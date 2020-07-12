@@ -13,7 +13,9 @@ import {
 } from './local-storage';
 
 const JournalEventsContext = createContext<JournalEvent[] | null>(null);
+JournalEventsContext.displayName = 'JournalEventsContext';
 const JournalEventsAPIContext = createContext<JournalEventsAPI | null>(null);
+JournalEventsAPIContext.displayName = 'JournalEventsAPIContext';
 
 export const JournalEventsProvider: FunctionComponent = ({ children }) => {
   const [events, setEvents] = useState(getEventsFromLocalStorage);
