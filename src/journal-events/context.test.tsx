@@ -19,11 +19,55 @@ const renderHookWithJournalEvents = <P, R>(
     ...options,
   });
 
+const useJournalEventsWithAPI = () => {
+  const events = useJournalEvents();
+  const api = useJournalEventsAPI();
+
+  return { events, api };
+};
+
+const sampleEvent: JournalEvent = {
+  id: 'test',
+  name: 'Some event',
+  timestamp: 1587313239873,
+};
+
 describe('journal events context', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('should return an empty list of events initially', () => {
     const { result } = renderHookWithJournalEvents(useJournalEvents);
 
     expect(result.current).toEqual([]);
+  });
+
+  it('should return added events', () => {
+    const { result } = renderHookWithJournalEvents(useJournalEventsWithAPI);
+
+    act(() => {
+      result.current.api.addEvent(sampleEvent);
+    });
+
+    expect(result.current.events).toEqual([sampleEvent]);
+  });
+
+  it('should remove events', () => {
+    const { result } = renderHookWithJournalEvents(useJournalEventsWithAPI);
+
+    act(() => {
+      result.current.api.addEvent(sampleEvent);
+      result.current.api.addEvent({
+        id: 'test',
+        name: 'Test',
+        timestamp: 123,
+      });
+
+      result.current.api.removeEvent('test');
+    });
+
+    expect(result.current.events).toEqual([sampleEvent]);
   });
 
   it('should persist the events between reloads', () => {
@@ -33,17 +77,11 @@ describe('journal events context', () => {
       },
     } = renderHookWithJournalEvents(useJournalEventsAPI);
 
-    const event: JournalEvent = {
-      id: 'test',
-      name: 'Some event',
-      timestamp: 1587313239873,
-    };
-
     act(() => {
-      addEvent(event);
+      addEvent(sampleEvent);
     });
 
     const { result } = renderHookWithJournalEvents(useJournalEvents);
-    expect(result.current).toEqual([event]);
+    expect(result.current).toEqual([sampleEvent]);
   });
 });

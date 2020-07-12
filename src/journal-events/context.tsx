@@ -29,9 +29,24 @@ export const JournalEventsProvider: FunctionComponent = ({ children }) => {
     });
   };
 
-  const journalEventsAPI: JournalEventsAPI = useMemo(
-    () => ({
+  const removeEvent: JournalEventsAPI['removeEvent'] = (eventId) => {
+    setEvents((previousEvents) => {
+      const index = previousEvents.findIndex((event) => event.id === eventId);
+      if (index === -1) {
+        return previousEvents;
+      }
+
+      const updatedEvents = previousEvents.slice().splice(index, 1);
+      saveEventsToLocalStorage(updatedEvents);
+
+      return updatedEvents;
+    });
+  };
+
+  const journalEventsAPI = useMemo(
+    (): JournalEventsAPI => ({
       addEvent,
+      removeEvent,
     }),
     []
   );
