@@ -10,4 +10,5 @@ export interface JournalEvent {
 export interface JournalEventsAPI {
   addEvent: (event: JournalEvent) => void;
   removeEvent: (eventId: JournalEvent['id']) => void;
+  updateEvent: (updatedEvent: JournalEvent) => void;
 }
