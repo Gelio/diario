@@ -5,6 +5,7 @@ import { groupEventsByDate } from './group-events-by-date';
 import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { ClickableIcon } from 'components/clickable-icon';
 import { EventItem } from './event-item';
+import { CenteredModal } from 'components/centered-modal';
 
 export const EventsList: FunctionComponent = () => {
   const events = useJournalEvents();
@@ -15,6 +16,7 @@ export const EventsList: FunctionComponent = () => {
   const dates = useMemo(() => [...eventsGroupedByDate.keys()].sort(), [
     eventsGroupedByDate,
   ]);
+  const [editedEvent, setEditedEvent] = useState<JournalEvent | null>(null);
 
   return (
     <>
@@ -26,6 +28,14 @@ export const EventsList: FunctionComponent = () => {
         </p>
       )}
 
+      <CenteredModal
+        isOpen={!!editedEvent}
+        onRequestClose={() => setEditedEvent(null)}
+        contentLabel={`Editing event ${editedEvent?.name}`}
+      >
+        Editing {editedEvent?.name}
+      </CenteredModal>
+
       {dates.length > 0 &&
         dates.map((date) => (
           <EventsForDate
@@ -33,6 +43,7 @@ export const EventsList: FunctionComponent = () => {
             date={date}
             events={eventsGroupedByDate.get(date)!}
             removeEvent={removeEvent}
+            onEdit={setEditedEvent}
           />
         ))}
     </>
@@ -43,7 +54,8 @@ const EventsForDate: FunctionComponent<{
   date: string;
   events: JournalEvent[];
   removeEvent: JournalEventsAPI['removeEvent'];
-}> = ({ date, events, removeEvent }) => {
+  onEdit: (event: JournalEvent) => void;
+}> = ({ date, events, removeEvent, onEdit }) => {
   const [collapsed, setCollapsed] = useState(false);
   const toggleCollapse = () => setCollapsed((collapsed) => !collapsed);
 
@@ -67,6 +79,7 @@ const EventsForDate: FunctionComponent<{
               event={event}
               key={event.id}
               onRemove={removeEvent.bind(null, event.id)}
+              onEdit={onEdit.bind(null, event)}
             />
           ))}
         </ul>
