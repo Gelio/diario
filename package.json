@@ -18,7 +18,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "workaround": "https://github.com/testing-library/dom-testing-library/issues/477",
+    "test": "react-scripts test --env=jest-environment-jsdom-sixteen",
     "eject": "react-scripts eject",
     "lint": "eslint --ext ts,tsx src",
     "check-types": "tsc --noEmit"
@@ -55,6 +56,7 @@
     "@types/react-router-dom": "^5.1.5",
     "@types/uuid": "^8.3.0",
     "husky": "^4.3.0",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "lint-staged": "^10.4.0",
     "prettier": "^2.1.2",
     "react-test-renderer": "^16.13.1",
