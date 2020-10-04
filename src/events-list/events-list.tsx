@@ -1,15 +1,16 @@
 import React, { FunctionComponent, useMemo, useState } from 'react';
+import { MdExpandMore, MdExpandLess } from 'react-icons/md';
+
 import { useJournalEvents, useJournalEventsAPI } from 'journal-events/context';
 import { JournalEvent, JournalEventsAPI } from 'journal-events';
 import { groupEventsByDate } from './group-events-by-date';
-import { MdExpandMore, MdExpandLess } from 'react-icons/md';
 import { ClickableIcon } from 'components/clickable-icon';
 import { EventItem } from './event-item';
-import { CenteredModal } from 'components/centered-modal';
+import { EditEventModal } from './edit-modal';
 
 export const EventsList: FunctionComponent = () => {
   const events = useJournalEvents();
-  const { removeEvent } = useJournalEventsAPI();
+  const { removeEvent, updateEvent } = useJournalEventsAPI();
   const eventsGroupedByDate = useMemo(() => groupEventsByDate(events), [
     events,
   ]);
@@ -28,13 +29,11 @@ export const EventsList: FunctionComponent = () => {
         </p>
       )}
 
-      <CenteredModal
-        isOpen={!!editedEvent}
-        onRequestClose={() => setEditedEvent(null)}
-        contentLabel={`Editing event ${editedEvent?.name}`}
-      >
-        Editing {editedEvent?.name}
-      </CenteredModal>
+      <EditEventModal
+        editedEvent={editedEvent}
+        onClose={() => setEditedEvent(null)}
+        updateEvent={updateEvent}
+      />
 
       {dates.length > 0 &&
         dates.map((date) => (
