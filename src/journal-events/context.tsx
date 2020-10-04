@@ -44,10 +44,33 @@ export const JournalEventsProvider: FunctionComponent = ({ children }) => {
     });
   };
 
+  const updateEvent: JournalEventsAPI['updateEvent'] = (updatedEvent) => {
+    setEvents((previousEvents) => {
+      const index = previousEvents.findIndex(
+        (event) => event.id === updatedEvent.id
+      );
+      if (index === -1) {
+        console.error(
+          'Event with id',
+          updatedEvent.id,
+          'cannot be updated, as it does not exist'
+        );
+        return previousEvents;
+      }
+
+      const updatedEvents = previousEvents.slice();
+      updatedEvents[index] = updatedEvent;
+
+      saveEventsToLocalStorage(updatedEvents);
+      return updatedEvents;
+    });
+  };
+
   const journalEventsAPI = useMemo(
     (): JournalEventsAPI => ({
       addEvent,
       removeEvent,
+      updateEvent,
     }),
     []
   );

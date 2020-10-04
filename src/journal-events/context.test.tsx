@@ -90,4 +90,26 @@ describe('journal events context', () => {
     const { result } = renderHookWithJournalEvents(useJournalEvents);
     expect(result.current).toEqual([sampleEvent]);
   });
+
+  it('should update existing events', () => {
+    const {
+      result: {
+        current: { addEvent, updateEvent },
+      },
+    } = renderHookWithJournalEvents(useJournalEventsAPI);
+
+    const updatedEvent = {
+      ...sampleEvent,
+      name: 'I have been updated',
+    };
+
+    act(() => {
+      addEvent(sampleEvent);
+      updateEvent(updatedEvent);
+    });
+
+    const { result } = renderHookWithJournalEvents(useJournalEvents);
+
+    expect(result.current).toContainEqual(updatedEvent);
+  });
 });
