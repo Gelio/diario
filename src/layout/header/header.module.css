@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+  --border-color: rgba(0, 0, 0, 0.4);
+}
+
+.content {
+  padding-inline: 1.5rem;
+  padding-block: 1.5rem;
+  border-left: solid 1px var(--border-color);
+  border-right: solid 1px var(--border-color);
+}
+
+.app-name {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+}
+
+.bottom-border {
+  height: 0.5rem;
+  width: 75%;
+  border: none;
+  border-bottom: solid 1px var(--border-color);
+  border-radius: 25%;
+  margin-bottom: 1rem;
+}

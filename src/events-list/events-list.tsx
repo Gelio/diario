@@ -7,6 +7,8 @@ import { groupEventsByDate } from './group-events-by-date';
 import { ClickableIcon } from 'components/clickable-icon';
 import { EventItem } from './event-item';
 import { EditEventModal } from './edit-modal';
+import styles from './events-list.module.css';
+import { QuickAddBar } from 'components/quick-add-bar';
 
 export const EventsList: FunctionComponent = () => {
   const events = useJournalEvents();
@@ -20,32 +22,36 @@ export const EventsList: FunctionComponent = () => {
   const [editedEvent, setEditedEvent] = useState<JournalEvent | null>(null);
 
   return (
-    <>
-      <h1>Journal Events</h1>
+    <div className={styles.container}>
+      <div className="centered-content">
+        <span className={styles['section-title']}>Journal Events</span>
 
-      {dates.length === 0 && (
-        <p>
-          No journal events have been logged. Add one using the bar at the top
-        </p>
-      )}
+        <QuickAddBar />
 
-      <EditEventModal
-        editedEvent={editedEvent}
-        onClose={() => setEditedEvent(null)}
-        updateEvent={updateEvent}
-      />
+        {dates.length === 0 && (
+          <p>
+            No journal events have been logged. Add one using the bar at the top
+          </p>
+        )}
 
-      {dates.length > 0 &&
-        dates.map((date) => (
-          <EventsForDate
-            key={date}
-            date={date}
-            events={eventsGroupedByDate.get(date)!}
-            removeEvent={removeEvent}
-            onEdit={setEditedEvent}
-          />
-        ))}
-    </>
+        <EditEventModal
+          editedEvent={editedEvent}
+          onClose={() => setEditedEvent(null)}
+          updateEvent={updateEvent}
+        />
+
+        {dates.length > 0 &&
+          dates.map((date) => (
+            <EventsForDate
+              key={date}
+              date={date}
+              events={eventsGroupedByDate.get(date)!}
+              removeEvent={removeEvent}
+              onEdit={setEditedEvent}
+            />
+          ))}
+      </div>
+    </div>
   );
 };
 

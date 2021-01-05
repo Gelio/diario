@@ -14,4 +14,7 @@
 
   --color-secondary: #2ab7ca;
   --color-secondary-text: #1a1a1a;
+
+  --color-background: var(--color-primary-lighter);
+  --color-text: var(--color-primary-lighter-text);
 }

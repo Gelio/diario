@@ -1,5 +1,7 @@
 @import-normalize;
 @import './styles/colors.css';
+@import './styles/breakpoints.css';
+@import './styles/text-sizes.css';
 
 html,
 body,
@@ -7,4 +9,14 @@ body,
   width: 100%;
   height: 100%;
   margin: 0;
+}
+
+html {
+  font-size: 10px;
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+body {
+  font-size: 1.6rem;
 }
